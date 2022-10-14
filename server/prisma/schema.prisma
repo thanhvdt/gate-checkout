@@ -1,0 +1,32 @@
+// client generator
+generator client {
+  provider = "prisma-client-js"
+}
+
+// type of database
+datasource db {
+  provider = "postgres"
+  url      = env("DATABASE_URL")
+}
+
+//Models
+model Staff {
+  id      Int       @id @unique
+  name    String
+  Checkin Checkin[]
+}
+
+model Checkin {
+  id       Int       @id @default(autoincrement())
+  checkIn  DateTime  @default(now())
+  checkOut DateTime?
+  Gate     Gate      @default(GATE1)
+  staff    Staff     @relation(fields: [staffId], references: [id])
+  staffId  Int
+}
+
+enum Gate {
+  GATE1
+  GATE2
+  GATE3
+}
